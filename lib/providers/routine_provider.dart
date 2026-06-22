@@ -13,31 +13,8 @@ class RoutineNotifier extends StateNotifier<List<RoutineTask>> {
 
   Future<void> _load() async {
     _box = await Hive.openBox<String>(_boxName);
-    if (_box.isEmpty) {
-      state = _defaultTasks();
-      _save();
-    } else {
-      state = _box.values.map(RoutineTask.decode).toList();
-    }
+    state = _box.values.map(RoutineTask.decode).toList();
   }
-
-  List<RoutineTask> _defaultTasks() => [
-        RoutineTask(
-          title: 'Feed Cat',
-          subtitle: 'Morning',
-          frequency: RoutineFrequency.daily,
-        ),
-        RoutineTask(
-          title: 'Water Plants',
-          subtitle: 'Morning',
-          frequency: RoutineFrequency.mwf,
-        ),
-        RoutineTask(
-          title: 'Wash Dishes',
-          subtitle: 'Post-meal',
-          frequency: RoutineFrequency.daily,
-        ),
-      ];
 
   void _save() {
     _box.clear();

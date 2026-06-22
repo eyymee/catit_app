@@ -40,6 +40,30 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
     }
   }
 
+  Future<void> _confirmDelete(UpcomingTask task) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Delete event', style: AppTextStyles.headlineMd()),
+        content: Text('Remove "${task.title}"?',
+            style: AppTextStyles.bodyMd(color: AppColors.onSurfaceVariant)),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.error),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (ok == true && mounted) {
+      ref.read(upcomingProvider.notifier).deleteTask(task.id);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final sectioned = ref.watch(sectionedUpcomingProvider);
@@ -94,8 +118,7 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
                       onToggle: (id) =>
                           ref.read(upcomingProvider.notifier).toggleComplete(id),
                       onEdit: _showEditDialog,
-                      onDelete: (id) =>
-                          ref.read(upcomingProvider.notifier).deleteTask(id),
+                      onDelete: _confirmDelete,
                     ),
                   );
                 },
@@ -112,13 +135,12 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
                   onToggle: (id) =>
                       ref.read(upcomingProvider.notifier).toggleComplete(id),
                   onEdit: _showEditDialog,
-                  onDelete: (id) =>
-                      ref.read(upcomingProvider.notifier).deleteTask(id),
+                  onDelete: _confirmDelete,
                 ),
               ),
             ),
 
-          const SliverToBoxAdapter(child: SizedBox(height: 120)),
+          const SliverToBoxAdapter(child: SizedBox(height: 80)),
         ],
       ),
       floatingActionButton: FloatingActionButton.small(
@@ -248,7 +270,7 @@ class _SectionGroup extends StatelessWidget {
   final List<UpcomingTask> tasks;
   final ValueChanged<String> onToggle;
   final ValueChanged<UpcomingTask> onEdit;
-  final ValueChanged<String> onDelete;
+  final ValueChanged<UpcomingTask> onDelete;
 
   const _SectionGroup({
     required this.section,
@@ -332,7 +354,7 @@ class _SectionGroup extends StatelessWidget {
             showDate: showDate,
             onToggle: () => onToggle(tasks[i].id),
             onEdit: () => onEdit(tasks[i]),
-            onDelete: () => onDelete(tasks[i].id),
+            onDelete: () => onDelete(tasks[i]),
           ),
           if (i < tasks.length - 1) const SizedBox(height: AppSpacing.sm),
         ],
@@ -347,7 +369,7 @@ class _CompletedSection extends StatelessWidget {
   final List<UpcomingTask> tasks;
   final ValueChanged<String> onToggle;
   final ValueChanged<UpcomingTask> onEdit;
-  final ValueChanged<String> onDelete;
+  final ValueChanged<UpcomingTask> onDelete;
 
   const _CompletedSection({
     required this.tasks,
@@ -412,7 +434,7 @@ class _CompletedSection extends StatelessWidget {
                 showDate: true,
                 onToggle: () => onToggle(task.id),
                 onEdit: () => onEdit(task),
-                onDelete: () => onDelete(task.id),
+                onDelete: () => onDelete(task),
               ),
             )),
       ],
@@ -799,9 +821,11 @@ class _AddTaskDialogState extends State<_AddTaskDialog> {
                     Icon(Icons.calendar_today_rounded, size: 18,
                         color: AppColors.onSurfaceVariant),
                     const SizedBox(width: 8),
-                    Text(
-                      DateFormat('EEE, MMM d, yyyy').format(_dueDate),
-                      style: AppTextStyles.bodyMd(color: AppColors.onSurface),
+                    Expanded(
+                      child: Text(
+                        DateFormat('EEE, MMM d, yyyy').format(_dueDate),
+                        style: AppTextStyles.bodyMd(color: AppColors.onSurface),
+                      ),
                     ),
                   ],
                 ),

@@ -36,9 +36,6 @@ abstract final class AppColors {
 
   // Surface / Background
   static const Color surface = Color(0xFFF4FAFD);
-  static const Color background = Color(0xFFF4FAFD);
-  static const Color surfaceBright = Color(0xFFF4FAFD);
-  static const Color surfaceDim = Color(0xFFD4DBDD);
   static const Color surfaceVariant = Color(0xFFDDE4E6);
   static const Color surfaceContainer = Color(0xFFE8EFF1);
   static const Color surfaceContainerLow = Color(0xFFEEF5F7);
@@ -48,7 +45,6 @@ abstract final class AppColors {
 
   // Text
   static const Color onSurface = Color(0xFF161D1F);
-  static const Color onBackground = Color(0xFF161D1F);
   static const Color onSurfaceVariant = Color(0xFF564337);
 
   // Outline
@@ -67,6 +63,5 @@ abstract final class AppColors {
   static const Color inversePrimary = Color(0xFFFFB783);
 
   // Shadows / dividers
-  static const Color shadowLight = Color(0x0A000000);
   static const Color divider = Color(0xFFDDE4E6);
 }

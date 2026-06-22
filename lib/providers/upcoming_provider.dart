@@ -17,13 +17,8 @@ class UpcomingNotifier extends StateNotifier<List<UpcomingTask>> {
   Future<void> _load() async {
     _box = await Hive.openBox<String>(_boxName);
     _metaBox = await Hive.openBox<String>(_metaBoxName);
-    if (_box.isEmpty && _metaBox.isEmpty) {
-      state = _defaultTasks();
-      _save();
-    } else {
-      state = _box.values.map(UpcomingTask.decode).toList();
-      _purgeCompletedIfWeeklyReset();
-    }
+    state = _box.values.map(UpcomingTask.decode).toList();
+    _purgeCompletedIfWeeklyReset();
   }
 
   void _purgeCompletedIfWeeklyReset() {
@@ -46,34 +41,6 @@ class UpcomingNotifier extends StateNotifier<List<UpcomingTask>> {
     return now.isBefore(thisSunday)
         ? thisSunday.subtract(const Duration(days: 7))
         : thisSunday;
-  }
-
-  List<UpcomingTask> _defaultTasks() {
-    final now = DateTime.now();
-    return [
-      UpcomingTask(
-        title: 'Pay Electricity Bill',
-        subtitle: 'Utility Payment • Monthly Recurring',
-        dueDate: DateTime(now.year, now.month, now.day),
-        time: '09:00 AM',
-        priority: TaskPriority.high,
-      ),
-      UpcomingTask(
-        title: 'Grocery Restock',
-        subtitle: 'Pantry Essentials • Weekly',
-        dueDate: DateTime(now.year, now.month, now.day),
-        time: '06:00 PM',
-        priority: TaskPriority.medium,
-      ),
-      UpcomingTask(
-        title: 'Doctor Appointment',
-        subtitle: 'Health Checkup • Dr. Aris',
-        dueDate: DateTime(now.year, now.month, now.day + 3),
-        time: '10:30 AM',
-        location: 'City Clinic',
-        priority: TaskPriority.medium,
-      ),
-    ];
   }
 
   void _save() {

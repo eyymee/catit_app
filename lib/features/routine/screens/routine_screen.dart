@@ -36,7 +36,7 @@ class _RoutineScreenState extends ConsumerState<RoutineScreen> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Delete Routine', style: AppTextStyles.headlineMd()),
+        title: Text('Delete routine', style: AppTextStyles.headlineMd()),
         content: Text('Remove "${task.title}"?',
             style: AppTextStyles.bodyMd(color: AppColors.onSurfaceVariant)),
         actions: [
@@ -60,7 +60,7 @@ class _RoutineScreenState extends ConsumerState<RoutineScreen> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Reset Routines', style: AppTextStyles.headlineMd()),
+        title: Text('Reset routines', style: AppTextStyles.headlineMd()),
         content: Text(
           'Mark all routines as incomplete for today?',
           style: AppTextStyles.bodyMd(color: AppColors.onSurfaceVariant),
@@ -145,7 +145,7 @@ class _RoutineScreenState extends ConsumerState<RoutineScreen> {
                         emptyIcon: Icons.hourglass_empty_rounded,
                       ),
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 80),
             ],
           ),
         ),

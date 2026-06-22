@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import 'responsive_layout.dart';
 
 class ShellScaffold extends StatelessWidget {
   final Widget child;
@@ -21,9 +22,7 @@ class ShellScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-
-    if (width >= 600) {
+    if (LayoutBreakpoints.isTabletOrWider(context)) {
       return Scaffold(
         backgroundColor: AppColors.surface,
         body: Row(
@@ -50,6 +49,13 @@ class ShellScaffold extends StatelessWidget {
   }
 }
 
+const _navItems = [
+  (icon: Icons.home_outlined, filled: Icons.home_rounded, label: 'Home'),
+  (icon: Icons.shopping_cart_outlined, filled: Icons.shopping_cart_rounded, label: 'Groceries'),
+  (icon: Icons.sync_rounded, filled: Icons.sync_rounded, label: 'Routines'),
+  (icon: Icons.calendar_today_outlined, filled: Icons.calendar_today_rounded, label: 'Upcoming'),
+];
+
 // ── Bottom nav (mobile) ──────────────────────────────────────────
 
 class _BottomNav extends StatelessWidget {
@@ -60,13 +66,6 @@ class _BottomNav extends StatelessWidget {
     required this.selectedIndex,
     required this.onDestinationSelected,
   });
-
-  static const _items = [
-    (icon: Icons.home_outlined, filled: Icons.home_rounded, label: 'Home'),
-    (icon: Icons.shopping_cart_outlined, filled: Icons.shopping_cart_rounded, label: 'Groceries'),
-    (icon: Icons.sync_rounded, filled: Icons.sync_rounded, label: 'Routines'),
-    (icon: Icons.calendar_today_outlined, filled: Icons.calendar_today_rounded, label: 'Upcoming'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -88,12 +87,12 @@ class _BottomNav extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Row(
             children: [
-              for (int i = 0; i < _items.length; i++)
+              for (int i = 0; i < _navItems.length; i++)
                 Expanded(
                   child: _NavItem(
-                    icon: _items[i].icon,
-                    filledIcon: _items[i].filled,
-                    label: _items[i].label,
+                    icon: _navItems[i].icon,
+                    filledIcon: _navItems[i].filled,
+                    label: _navItems[i].label,
                     isSelected: selectedIndex == i,
                     onTap: () => onDestinationSelected(i),
                   ),
@@ -173,13 +172,6 @@ class _NavRail extends StatelessWidget {
     required this.onDestinationSelected,
   });
 
-  static const _destinations = [
-    (icon: Icons.home_outlined, filled: Icons.home_rounded, label: 'Home'),
-    (icon: Icons.shopping_cart_outlined, filled: Icons.shopping_cart_rounded, label: 'Groceries'),
-    (icon: Icons.sync_rounded, filled: Icons.sync_rounded, label: 'Routines'),
-    (icon: Icons.calendar_today_outlined, filled: Icons.calendar_today_rounded, label: 'Upcoming'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return NavigationRail(
@@ -226,7 +218,7 @@ class _NavRail extends StatelessWidget {
           ],
         ),
       ),
-      destinations: _destinations
+      destinations: _navItems
           .map((d) => NavigationRailDestination(
                 icon: Icon(d.icon),
                 selectedIcon: Icon(d.filled),

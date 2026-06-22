@@ -34,12 +34,8 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
             if (actions != null) ...actions!,
             Text(
               'Catit down. Get it done.',
-              style: TextStyle(
-                fontSize: isWide ? 12.0 : 11.0,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w400,
-                color: AppColors.onSurfaceVariant,
-              ),
+              style: AppTextStyles.labelSm(color: AppColors.onSurfaceVariant)
+                  .copyWith(fontStyle: FontStyle.italic, fontSize: isWide ? 12.0 : 11.0),
             ),
           ],
         ),

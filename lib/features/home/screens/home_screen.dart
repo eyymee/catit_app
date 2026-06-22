@@ -23,6 +23,7 @@ class HomeScreen extends ConsumerWidget {
     final purchasedGroceries = ref.watch(purchasedCountProvider);
     final upcomingTasks = ref.watch(upcomingProvider);
     final pendingUpcoming = upcomingTasks.where((t) => !t.isCompleted).length;
+    final nearbyUpcoming = upcomingTasks.where((t) => !t.isCompleted).take(3).toList();
 
     final progress = totalRoutines == 0
         ? 0.0
@@ -101,7 +102,7 @@ class HomeScreen extends ConsumerWidget {
                             const _EmptyReminders()
                           else
                             _ReminderList(
-                              tasks: upcomingTasks.where((t) => !t.isCompleted).take(3).toList(),
+                              tasks: nearbyUpcoming,
                             ),
                         ],
                       ),
@@ -134,10 +135,10 @@ class HomeScreen extends ConsumerWidget {
                   const _EmptyReminders()
                 else
                   _ReminderList(
-                    tasks: upcomingTasks.where((t) => !t.isCompleted).take(3).toList(),
+                    tasks: nearbyUpcoming,
                   ),
               ],
-              const SizedBox(height: 100),
+              const SizedBox(height: 80),
             ],
           ),
         ),
@@ -152,7 +153,7 @@ class HomeScreen extends ConsumerWidget {
         : hour < 17
             ? 'Good afternoon'
             : 'Good evening';
-    return '$salutation, Amira';
+    return salutation;
   }
 }
 

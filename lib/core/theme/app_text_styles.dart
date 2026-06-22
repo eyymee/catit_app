@@ -29,13 +29,6 @@ abstract final class AppTextStyles {
       );
 
   // Body — Inter
-  static TextStyle bodyLg({Color? color}) => GoogleFonts.inter(
-        fontSize: 18,
-        height: 28 / 18,
-        fontWeight: FontWeight.w400,
-        color: color ?? AppColors.onSurface,
-      );
-
   static TextStyle bodyMd({Color? color}) => GoogleFonts.inter(
         fontSize: 16,
         height: 24 / 16,

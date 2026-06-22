@@ -45,7 +45,7 @@ class _TimePickerSheetState extends State<TimePickerSheet> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(
-          24, 12, 24, 24 + MediaQuery.of(context).viewInsets.bottom),
+          24, 12, 24, 24 + MediaQuery.viewInsetsOf(context).bottom),
       decoration: const BoxDecoration(
         color: AppColors.cream,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
